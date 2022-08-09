@@ -45,7 +45,10 @@ async function getSpeciesData(req, res) {
         throw "API returned an empty array";
       }
       // save store the data in Redis Cache
-      await redisClient.set(species, JSON.stringify(results));
+      await redisClient.set(species, JSON.stringify(results),{
+        EX:180,
+        NX:true,
+      });
     }
     // return the results from the get method
     res.send({
